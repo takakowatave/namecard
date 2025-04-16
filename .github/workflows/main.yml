@@ -33,7 +33,7 @@ jobs:
         run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > ./firebase-key.json
 
       - name: Deploy to Firebase
-        run: npx firebase deploy --only hosting
+        run: npx firebase deploy --only hosting --project namecard-a766a
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/firebase-key.json
           FIREBASE_CLI_EXPERIMENTS: webframeworks

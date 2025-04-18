@@ -39,5 +39,5 @@ jobs:
           FIREBASE_CLI_EXPERIMENTS: webframeworks
 
       - name: Clean up service account key
-        run: rm ./firebase-key.json
+        run: rm -f ./firebase-key.json
         if: ${{ always() }}

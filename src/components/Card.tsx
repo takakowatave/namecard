@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { supabase } from "../utils/supabaseClient";
-import { Stack, Heading, Text, Button, List, ListItem, Link, Flex, Box } from "@chakra-ui/react";
+import { Stack, HStack, Heading, Text, Button, List, ListItem, Link, Flex, Box } from "@chakra-ui/react";
 
 type Skill = {
     id: string;
@@ -24,18 +24,18 @@ type UserWithLinks = User & {
     x_url?: string;
 }
 
-
 // Card関数を作る
 const Card = () => { //user, skillsからそれぞれpropsを受け取る
     const [user, setUser] = useState<User | null>(null); //「User型 or null型」、初期値は (null)
     const [skills, setSkills] = useState<Skill[]>([]); //Skill型の配列をstateに持ち、最初はからの配列でスタートする
-    const { id } = useParams(); // id = "sample-id"
+    const { id } = useParams<{ id: string }>(); // id = "sample-id"
     const snsLinks = [
-    { label: "GitHub", url: `https://github.com/${user?.github_id}` }, //labelは画面に見えるテキスト
-    { label: "Qiita", url: `https://qiita.com/${user?.qiita_id}` },
-    { label: "X", url: `https://x.com/${user?.x_id}` },
+    { label: "GitHub", url: `https://github.com/${user?.github_id}`,icon: "/github.png" }, //labelは画面に見えるテキスト
+    { label: "Qiita", url: `https://qiita.com/${user?.qiita_id}`,icon: "/qiita.png" },
+    { label: "X", url: `https://x.com/${user?.x_id}`,icon: "/x.png" },
     ];
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(true);
 
 // ファクトリーメソッド
     const createUserWithLinks = (user: User): UserWithLinks => {
@@ -58,25 +58,36 @@ const Card = () => { //user, skillsからそれぞれpropsを受け取る
         // skillsテーブルの中からidが一致するものを一つだけ選ぶ
         const skillsResult = await supabase.from("user_skills").select("*").eq("user_id", id);
         const { data: skillData, error: skillError } = skillsResult; //取得した結果をdataとエラーに分ける
-            
-            if (userError || skillError) {
-                console.log(userError || skillError);
-                return;
-            }
-            setUser(createUserWithLinks(userData)); //取得したデータをuserに保存する
-            setSkills(skillData); //取得したスキルデータをskillsに保存する      
-        };
-      console.log(id); // ここで確認
-        fetchData(); //作った関数を実行
-      }, [id]); //第二引数にidを指定（idが変わったときだけuseEffectを再実行する）
+        
+          //エラーの処理
+        if (userError || skillError) {
+            console.log(userError || skillError);
+            return;
+        }
+        
+        setUser(createUserWithLinks(userData)); //取得したデータをuserに保存する
+        setSkills(skillData); //取得したスキルデータをskillsに保存する
+        setIsLoading(false);
+    } 
+    fetchData(); //作った関数を実行
+    }, [id]); //第二引数にidを指定（idが変わったときだけuseEffectを再実行する）
+
+    //loadingの処理
+    if (isLoading) {
+    return(
+    <Flex justify="center" align="center" height="100vh">
+    <Text fontSize="xl">loading...</Text>
+    </Flex>
+    );
+    }
     return (
     <Flex bg="gray.100" justifyContent="center" alignItems="center" width="100%" py= {4} height = "100%">
         <Box p= {4} bg="white" w="90%">
         <Heading py= {4} textAlign="center" w="100%">テスト太郎</Heading>
-        {user && (
+        {user && ( //user が null じゃなければ、 <Stack> を表示
         <Stack spacing={4}>
             <Text>{user.name}</Text>
-            <Text>{user.description}</Text>
+            <div dangerouslySetInnerHTML={{ __html: user.description }} />
             <List spacing={3}>
                 {skills.map((skill) => (
                 <ListItem key={skill.id}>
@@ -84,13 +95,13 @@ const Card = () => { //user, skillsからそれぞれpropsを受け取る
                 </ListItem>
                 ))}
             </List>
-            <List spacing={3}>
+            <HStack spacing={3}>
                 {snsLinks.map((link) => (
-                <ListItem key={link.label}>
-                    <Link href={link.url} isExternal>{link.label}</Link>
-                </ListItem>
+                    <Link href={link.url} isExternal key={link.label}>
+                        <img src={link.icon} alt={link.label} width="24" height="24" />
+                    </Link>
                 ))}
-            </List>
+            </HStack>
         <Button color="white" bg="teal.500" onClick={() => navigate(-1)}>戻る </Button>
         </Stack>
         )}

@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { supabase } from "../utils/supabaseClient";
-import { Stack, HStack, Heading, Text, Button, List, ListItem, Link, Flex, Box } from "@chakra-ui/react";
+import { HStack, Stack, Heading, Text, Button, List, ListItem, Link, Flex, Box } from "@chakra-ui/react";
 
 type Skill = {
     id: string;
@@ -36,6 +36,7 @@ const Card = () => { //user, skillsからそれぞれpropsを受け取る
     ];
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(false);
 
 // ファクトリーメソッド
     const createUserWithLinks = (user: User): UserWithLinks => {
@@ -61,7 +62,7 @@ const Card = () => { //user, skillsからそれぞれpropsを受け取る
         
           //エラーの処理
         if (userError || skillError) {
-            console.log(userError || skillError);
+            
             return;
         }
         
@@ -97,12 +98,12 @@ const Card = () => { //user, skillsからそれぞれpropsを受け取る
             </List>
             <HStack spacing={3}>
                 {snsLinks.map((link) => (
-                    <Link href={link.url} isExternal key={link.label}>
-                        <img src={link.icon} alt={link.label} width="24" height="24" />
-                    </Link>
+                <Link href={link.url} isExternal key={link.label}>
+                <img src={link.icon} alt={link.label} width="24" height="24" />
+                </Link>
                 ))}
             </HStack>
-        <Button color="white" bg="teal.500" onClick={() => navigate(-1)}>戻る </Button>
+        <Button color="white" bg="teal.500" onClick={() => navigate("/")}>戻る </Button>
         </Stack>
         )}
         </Box>

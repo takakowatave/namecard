@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import Card from "./page/Card";
-import RegisterCard from "./page/RegisterCard";
+import Card from "./pages/Card";
+import RegisterCard from "./pages/RegisterCard";
 
 const App = () => {
   return (

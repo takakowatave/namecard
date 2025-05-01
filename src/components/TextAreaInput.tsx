@@ -1,12 +1,12 @@
-import { FormControl, Textarea } from "@chakra-ui/react";
-import FormTitle from "./FormTitle";
+import { Textarea } from "@chakra-ui/react";
 
-const TextAreaInput = () => {
+type Props = {
+    placeholder?: string; // ← ? をつけると任意になる
+    };
+
+const TextAreaInput = ({ placeholder }: Props) => {
     return (
-        <FormControl>
-        <FormTitle>自己紹介</FormTitle>
-        <Textarea placeholder="ここに入力..." />
-        </FormControl>
+        <Textarea placeholder={placeholder} />
     );
 };
 export default TextAreaInput;

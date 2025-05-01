@@ -1,12 +1,8 @@
-import { FormControl, Input } from "@chakra-ui/react";
-import FormTitle from "./FormTitle";
+import { Input } from "@chakra-ui/react";
 
-const TextInput = () => {
+const TextInput = ({ placeholder }: { placeholder: string }) => {
     return (
-        <FormControl>
-        <FormTitle>好きな英単語</FormTitle>
-        <Input placeholder="coffee" />
-        </FormControl>
+        <Input placeholder={placeholder} />
     );
 };
 export default TextInput;

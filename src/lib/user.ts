@@ -16,6 +16,9 @@ export type User = {
     name: string;
 }
 
+type NewUser = Omit<User, "id" | "created_at">;
+// ↑ これは { name: string } という型になる
+
 type UserWithLinks = User & {
     github_url?: string; 
     qiita_url?: string;
@@ -23,7 +26,7 @@ type UserWithLinks = User & {
 }
 
 //supabaseから取得する生データ
-//データを取りに行く・加工する」という全部の仕事を肩代わりさせる
+//「データを取りに行く・加工する」
 export const fetchUserAndSkills = async (id: string): Promise<{ user: UserWithLinks, skills: Skill[] }> => {
 // ファクトリーメソッド
     const createUserWithLinks = (user: User): UserWithLinks => {
@@ -53,3 +56,17 @@ export const fetchUserAndSkills = async (id: string): Promise<{ user: UserWithLi
         const skills = skillData;
         return{ user, skills };
 };
+
+//「登録」の関数（責任：書き込み）
+type InsertUserResponse = { // 戻り値を決める
+  data: User[] | null; // 記録の配列か、null
+  error: Error | null; // エラーかnull
+};
+
+export const insertUser = async (newUser: NewUser):Promise<InsertUserResponse> => {  // 型をつけてNewUser を Supabase に送る
+    const result = await supabase.from("users").insert([newUser]).select();// supabaseにデータを送る
+    const { data, error } = result;// resultを定義
+  return { data, error }; // データとエラーを返す
+};
+
+

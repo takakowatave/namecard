@@ -3,16 +3,10 @@ import TextAreaInput from "../components/TextAreaInput";
 import SelectInput from "../components/SelectInput";
 import TextInput from "../components/TextInput";
 import FormLayout from "../components/FormLayout";
-import { Stack, Heading, Button } from "@chakra-ui/react";
+import { Stack, Heading, Box, Button, Toast } from "@chakra-ui/react";
 import { useForm, Controller } from "react-hook-form";
-
-
-//ボタン
-type ButtonProps = {
-    label: string;
-    onClick: () => void;//引数がなく、返すものは何もないということを定義
-    };
-
+import { insertUser, FormUser } from "../lib/user";
+import { useNavigate } from "react-router-dom";
 // 1. データを取得
 // → useForm() で値を管理し、handleSubmit(onSubmit) でデータが取れる。
 
@@ -25,19 +19,29 @@ type ButtonProps = {
 
 
 const RegisterCard = () => {
-    const { register, control } = useForm(); 
-    const FormButton = ({ label }: ButtonProps) => {
-        const { handleSubmit } = useForm(); //フォームのバリデーションを実行してから送信処理（onSubmit）を呼び出す
-        const onSubmit = () => {
-            // ここでSupabaseに送信したりする
-            }
+    const navigate = useNavigate();
+    const { register, control, handleSubmit } = useForm<FormUser>(); 
+    const onSubmit = async (data: FormUser) => {
+        await insertUser(data);
+        console.log("更新完了")
+            Toast({
+                title: "保存しました",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+                position: "top",
+            });
         };
     return (
         <CardLayout>
         <Heading py= {4} textAlign="center" w="100%">名刺新規登録</Heading>
         <Stack spacing= {6}>
         <FormLayout title="好きな英単語">
-        <TextInput placeholder="名前を入力" {...register("word")}></TextInput>
+        <TextInput placeholder="coffee" {...register("word")}></TextInput>
+        </FormLayout>
+
+        <FormLayout title="お名前">
+        <TextInput placeholder="名前を記入" {...register("name")}></TextInput>
         </FormLayout>
 
         <FormLayout title="自己紹介">
@@ -69,19 +73,20 @@ const RegisterCard = () => {
         </FormLayout>
 
         <FormLayout title="X ID">
-        <TextInput placeholder="@は不要" {...register("X")}></TextInput>
+        <TextInput placeholder="@は不要" {...register("x")}></TextInput>
         </FormLayout>
-
-        <Button 
-            onClick={handleSubmit(onSubmit)}
-            data-testid="save_button" 
-            type="submit" 
-            colorScheme="teal" 
-            w="100%" 
-            my="4">{label}
-        </Button>
-
         </Stack>
+        <Box>
+            <Button 
+                onClick={handleSubmit(onSubmit)}
+                data-testid="save_button" 
+                type="submit" 
+                colorScheme="teal" 
+                w="100%" 
+                my="4">保存
+            </Button>
+            <Button w="100%" variant="outline" color="teal" borderColor="teal" onClick={() => navigate("/")}>戻る </Button>
+        </Box>
         </CardLayout>
     );
 };

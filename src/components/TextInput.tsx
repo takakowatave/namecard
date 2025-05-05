@@ -1,9 +1,8 @@
 import { Input } from "@chakra-ui/react";
+import { forwardRef } from "react";
 
+const TextInput = forwardRef((props: any, ref) => {
+    return <Input ref={ref} {...props} />;
+});
 
-const TextInput = ({ placeholder }: { placeholder: string }) => {
-    return (
-        <Input placeholder={placeholder} />
-    );
-};
 export default TextInput;

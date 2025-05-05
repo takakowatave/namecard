@@ -4,7 +4,7 @@ import { supabase } from "../utils/supabaseClient";
 export type Skill = {
     id: string;
     skill_name: string;
-}
+};
 
 export type User = {
     id: string;
@@ -14,59 +14,69 @@ export type User = {
     github_id: string;
     description: string;
     name: string;
-}
+};
 
-type NewUser = Omit<User, "id" | "created_at">;
-// ↑ これは { name: string } という型になる
+export type FormUser = {
+    word: string;
+    name: string;
+    bio: string;
+    tech: string;
+    github: string;
+    qiita: string;
+    x: string;
+};
 
-type UserWithLinks = User & {
-    github_url?: string; 
+
+export type UserWithLinks = User & {
+    github_url?: string;
     qiita_url?: string;
     x_url?: string;
-}
+};
 
-//supabaseから取得する生データ
-//「データを取りに行く・加工する」
+// Supabaseから取得する生データ
 export const fetchUserAndSkills = async (id: string): Promise<{ user: UserWithLinks, skills: Skill[] }> => {
-// ファクトリーメソッド
     const createUserWithLinks = (user: User): UserWithLinks => {
-    return {
-        ...user, // もとのuserオブジェクトの中身（id, name, github_idなど）をすべて展開する
-        
-        //user.github_idが存在するならGitHubのURLを作る、なければundefinedにする
-        github_url: user.github_id ? `https://github.com/${user.github_id}` : undefined,
-        qiita_url: user.qiita_id ? `https://qiita.com/${user.qiita_id}` : undefined,
-        x_url: user.x_id ? `https://x.com/${user.x_id}` : undefined,
-        }
+        return {
+            ...user,
+            github_url: user.github_id ? `https://github.com/${user.github_id}` : undefined,
+            qiita_url: user.qiita_id ? `https://qiita.com/${user.qiita_id}` : undefined,
+            x_url: user.x_id ? `https://x.com/${user.x_id}` : undefined,
+        };
+    };
+
+    const userResult = await supabase.from("users").select("*").eq("id", id).single();
+    const { data: userData, error: userError } = userResult;
+
+    const skillsResult = await supabase.from("user_skills").select("*").eq("user_id", id);
+    const { data: skillData, error: skillError } = skillsResult;
+
+    if (userError || skillError) {
+        throw new Error("データ取得に失敗しました");
     }
 
-        const userResult = await supabase.from("users").select("*").eq("id", id).single();
-        const { data: userData, error: userError } = userResult; //取得した結果をdataとエラーに分ける
-
-        // skillsテーブルの中からidが一致するものを一つだけ選ぶ
-        const skillsResult = await supabase.from("user_skills").select("*").eq("user_id", id);
-        const { data: skillData, error: skillError } = skillsResult; //取得した結果をdataとエラーに分ける
-        
-          //エラーの処理
-        if (userError || skillError) {
-            throw new Error("データ取得に失敗しました");
-        }
-
-        const user = createUserWithLinks(userData); 
-        const skills = skillData;
-        return{ user, skills };
+    const user = createUserWithLinks(userData);
+    const skills = skillData;
+    return { user, skills };
 };
 
-//「登録」の関数（責任：書き込み）
-type InsertUserResponse = { // 戻り値を決める
-  data: User[] | null; // 記録の配列か、null
-  error: Error | null; // エラーかnull
+// 登録処理
+export type InsertUserResponse = {
+    data: User[] | null;
+    error: Error | null;
 };
 
-export const insertUser = async (newUser: NewUser):Promise<InsertUserResponse> => {  // 型をつけてNewUser を Supabase に送る
-    const result = await supabase.from("users").insert([newUser]).select();// supabaseにデータを送る
-    const { data, error } = result;// resultを定義
-  return { data, error }; // データとエラーを返す
+export const insertUser = async (formData: FormUser): Promise<InsertUserResponse> => {
+    const newUser: User = {
+        id: formData.word, 
+        name: formData.name,
+        description: formData.bio,
+        github_id: formData.github,
+        qiita_id: formData.qiita,
+        x_id: formData.x,
+        created_at: new Date().toISOString(),
+    };
+    console.log("送信データ:", newUser);
+    const result = await supabase.from("users").insert([newUser]);
+    const { data, error } = result;
+    return { data, error };
 };
-
-

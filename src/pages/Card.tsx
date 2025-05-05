@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";;
+import { useParams, useNavigate } from "react-router-dom";
 import { HStack, Stack, Heading, Text, Button, List, ListItem, Link } from "@chakra-ui/react";
 import CardLayout from "../components/CardLayout";
 import { useFetchUser } from "../hooks/useFetchUser";

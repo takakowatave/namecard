@@ -3,7 +3,7 @@ import TextAreaInput from "../components/TextAreaInput";
 import SelectInput from "../components/SelectInput";
 import TextInput from "../components/TextInput";
 import FormLayout from "../components/FormLayout";
-import { Stack, Heading, Box, Button, useToast, Text } from "@chakra-ui/react";
+import { Stack, Box, Button, useToast, Text } from "@chakra-ui/react";
 import { useForm, Controller } from "react-hook-form";
 import { insertUser, FormUser } from "../lib/user";
 import { useNavigate } from "react-router-dom";
@@ -39,8 +39,7 @@ const RegisterCard = () => {
             }
         };
     return (
-        <div>
-        <Heading py= {4} textAlign="center" w="100%">名刺新規登録</Heading>
+        <CardLayout title="名刺新規登録">
         <Stack spacing= {6}>
         <FormLayout title="好きな英単語">
         <TextInput placeholder="coffee" 
@@ -192,9 +191,8 @@ const RegisterCard = () => {
                 onClick={() => navigate("/")}>戻る 
             </Button>
         </Box>
-        </div>
+        </CardLayout>
     );
 };
-
 
 export default RegisterCard;

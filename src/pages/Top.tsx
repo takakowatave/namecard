@@ -1,10 +1,13 @@
+import useFetchUser from "../hooks/useFetchUser";
 import CardLayout from "../components/CardLayout";
 import FormLayout from "../components/FormLayout";
 import TextInput from "../components/TextInput";
-import { Stack, Button, Text } from "@chakra-ui/react";
+import { Stack, Button, Text, Flex } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { FormUser } from "../lib/user";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useState } from 'react';
 
 const Top = () => {
     const navigate = useNavigate();
@@ -44,6 +47,9 @@ const Top = () => {
             名刺をみる
             </Button>
         </Stack>
+            <Flex justify="center" align="center">
+            <Link to="cards/register">新規登録はこちら</Link>
+            </Flex>
         </CardLayout>
     );
 };

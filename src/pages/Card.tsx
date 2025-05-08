@@ -6,12 +6,11 @@ import CardLayout from "../components/CardLayout";
 // Card関数を作る
 const Card = () => { //user, skillsからそれぞれpropsを受け取る
     const { id } = useParams<{ id: string }>(); // id = "sample-id"
-    const { user, skills, isLoading, error, snsLinks } = useFetchUser(id);
+    const { user, skills, snsLinks } = useFetchUser(id);
     const navigate = useNavigate();
 
     return (
-        <CardLayout title="デジタル名刺アプリ">
-        <Heading py= {4} textAlign="center" w="100%">テスト太郎</Heading>
+        <CardLayout title="テスト太郎">
         {user && ( //user が null じゃなければ、 <Stack> を表示
         <Stack spacing={4}>
             <Text>{user.name}</Text>

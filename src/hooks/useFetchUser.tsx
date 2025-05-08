@@ -36,3 +36,5 @@ export const useFetchUser = (id: string | undefined) => { //user, skillsから�
     return { user, skills, isLoading, error, snsLinks };
 };
 
+
+export default useFetchUser;

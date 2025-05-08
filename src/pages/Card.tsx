@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { HStack, Stack, Heading, Text, Button, List, ListItem, Link } from "@chakra-ui/react";
+import { HStack, Stack, Text, Button, List, ListItem, Link } from "@chakra-ui/react";
 import { useFetchUser } from "../hooks/useFetchUser";
 import CardLayout from "../components/CardLayout";
 
@@ -13,9 +13,9 @@ const Card = () => { //user, skillsからそれぞれpropsを受け取る
         <CardLayout title="テスト太郎">
         {user && ( //user が null じゃなければ、 <Stack> を表示
         <Stack spacing={4}>
-            <Text>{user.name}</Text>
-            <div dangerouslySetInnerHTML={{ __html: user.description }} />
-            <List spacing={3}>
+            <Text data-testid="name">{user.name}</Text>
+            <div data-testid="description" dangerouslySetInnerHTML={{ __html: user.description }} />
+            <List  data-testid="skills" spacing={3}>
                 {skills.map((skill) => (
                 <ListItem key={skill.id}>
                     {skill.skill_name}

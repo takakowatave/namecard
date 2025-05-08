@@ -1,4 +1,3 @@
-import useFetchUser from "../hooks/useFetchUser";
 import CardLayout from "../components/CardLayout";
 import FormLayout from "../components/FormLayout";
 import TextInput from "../components/TextInput";
@@ -7,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { FormUser } from "../lib/user";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useState } from 'react';
 
 const Top = () => {
     const navigate = useNavigate();

@@ -1,8 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { HStack, Stack, Heading, Text, Button, List, ListItem, Link } from "@chakra-ui/react";
-import CardLayout from "../components/CardLayout";
 import { useFetchUser } from "../hooks/useFetchUser";
-
+import CardLayout from "../components/CardLayout";
 
 // Card関数を作る
 const Card = () => { //user, skillsからそれぞれpropsを受け取る
@@ -11,7 +10,7 @@ const Card = () => { //user, skillsからそれぞれpropsを受け取る
     const navigate = useNavigate();
 
     return (
-        <CardLayout>
+        <CardLayout title="デジタル名刺アプリ">
         <Heading py= {4} textAlign="center" w="100%">テスト太郎</Heading>
         {user && ( //user が null じゃなければ、 <Stack> を表示
         <Stack spacing={4}>
@@ -34,8 +33,8 @@ const Card = () => { //user, skillsからそれぞれpropsを受け取る
         <Button color="white" bg="teal.500" onClick={() => navigate("/")}>戻る </Button>
         </Stack>
         )}
-    </CardLayout>
-    )
+        </ CardLayout>
+    );
 };
 
 

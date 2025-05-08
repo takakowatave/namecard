@@ -1,0 +1,51 @@
+import CardLayout from "../components/CardLayout";
+import FormLayout from "../components/FormLayout";
+import TextInput from "../components/TextInput";
+import { Stack, Button, Text } from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
+import { FormUser } from "../lib/user";
+import { useNavigate } from "react-router-dom";
+
+const Top = () => {
+    const navigate = useNavigate();
+    const { register, handleSubmit, formState: { errors } } = useForm<FormUser>();
+
+    const onSubmit = ({ word }: FormUser) => {
+        navigate(`/cards/${word}`);
+    };
+
+    return (
+        <CardLayout title="デジタル名刺アプリ">
+        <Stack spacing={6}>
+            <FormLayout title="ID">
+            <TextInput
+                placeholder="coffee"
+                {...register("word", {
+                required: "この項目は必須です",
+                pattern: {
+                    value: /^[a-zA-Z0-9]+$/,
+                    message: "英数字のみで入力してください",
+                },
+                maxLength: {
+                    value: 15,
+                    message: "15文字以内で入力してください",
+                },
+                })}
+            />
+            {errors.word && (
+                <Text color="red.500">{errors.word.message}</Text>
+            )}
+            </FormLayout>
+            <Button
+            onClick={handleSubmit(onSubmit)}
+            colorScheme="teal"
+            w="100%"
+            >
+            名刺をみる
+            </Button>
+        </Stack>
+        </CardLayout>
+    );
+};
+
+export default Top;

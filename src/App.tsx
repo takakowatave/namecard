@@ -1,15 +1,7 @@
-import { Routes, Route } from "react-router-dom";
-import Card from "./pages/Card";
-import RegisterCard from "./pages/RegisterCard";
+import Router from "./components/Router";
 
 const App = () => {
-  return (
-    <Routes>
-      <Route path="/" element={<div>トップページ</div>} />
-      <Route path="/cards/:id" element={<Card />} />
-      <Route path="/cards/register" element={<RegisterCard />} />
-    </Routes>
-  );
+  return <Router />;
 };
 
 export default App;

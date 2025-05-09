@@ -20,7 +20,7 @@ const Top = () => {
         <Stack spacing={6}>
             <FormLayout title="ID">
             <TextInput
-                placeholder="coffee"
+                placeholder="IDを入力"
                 {...register("word", {
                 required: "この項目は必須です",
                 pattern: {
@@ -38,6 +38,7 @@ const Top = () => {
             )}
             </FormLayout>
             <Button
+            data-testid="search_button"
             onClick={handleSubmit(onSubmit)}
             colorScheme="teal"
             w="100%"
@@ -46,7 +47,7 @@ const Top = () => {
             </Button>
         </Stack>
             <Flex justify="center" align="center">
-            <Link to="cards/register">新規登録はこちら</Link>
+            <Link  data-testid= "register_button" to="cards/register">新規登録はこちら</Link>
             </Flex>
         </CardLayout>
     );

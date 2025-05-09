@@ -41,7 +41,7 @@ const RegisterCard = () => {
     return (
         <CardLayout title="名刺新規登録">
         <Stack spacing= {6}>
-        <FormLayout title="好きな英単語">
+        <FormLayout title="好きな英単語 *">
         <TextInput placeholder="coffee" 
             {...register("word", {
                 // 入力が空欄だった場合にエラーメッセージを出す
@@ -63,8 +63,8 @@ const RegisterCard = () => {
             )}
         </FormLayout>
 
-        <FormLayout title="お名前">
-        <TextInput placeholder="名前を記入 *"
+        <FormLayout title="お名前 *">
+        <TextInput placeholder="名前を記入"
             {...register("name", {
                 required: "この項目は必須です",
                 pattern: {
@@ -88,7 +88,7 @@ const RegisterCard = () => {
             name="bio"
             control={control}
             rules={{
-                required: "必須です",
+                required: "この項目は必須です",
                 pattern: {
                     value: /^[\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Han}a-zA-Z0-9ー\s]+$/u,
                     message: "形式が正しくありません",

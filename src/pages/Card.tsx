@@ -15,7 +15,7 @@ const Card = () => { //user, skillsからそれぞれpropsを受け取る
         <Stack spacing={4}>
             <Text data-testid="name">{user.name}</Text>
             <div data-testid="description" dangerouslySetInnerHTML={{ __html: user.description }} />
-            <List  data-testid="skills" spacing={3}>
+            <List data-testid="skills" spacing={3}>
                 {skills.map((skill) => (
                 <ListItem key={skill.id}>
                     {skill.skill_name}
@@ -29,7 +29,7 @@ const Card = () => { //user, skillsからそれぞれpropsを受け取る
                 </Link>
                 ))}
             </HStack>
-        <Button color="white" bg="teal.500" onClick={() => navigate("/")}>戻る </Button>
+        <Button data-testid="back_button" color="white" bg="teal.500" onClick={() => navigate("/")}>戻る </Button>
         </Stack>
         )}
         </ CardLayout>

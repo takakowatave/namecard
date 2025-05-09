@@ -11,7 +11,7 @@ const CardLayout = ({ children, title }: CardLayoutProps) => { // propsを受け
     return (
     <Flex bg="gray.100" justifyContent="center" alignItems="center" width="100%" py= {4} height = "100%">
         <Stack p= {4} bg="white" w="90%" spacing= {6}>
-            <Heading py= {4} textAlign="center" w="100%">{title}</Heading>
+            <Heading  data-testid="title" py= {4} textAlign="center" w="100%">{title}</Heading>
             {children}
         </Stack>
     </Flex>

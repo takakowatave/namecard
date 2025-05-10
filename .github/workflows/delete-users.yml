@@ -20,7 +20,10 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-
+      
+      - name: Install ts-node globally
+        run: npm install -g ts-node typescript
+      
       - name: Run delete script
         run: npx ts-node ./batch/index.ts
 

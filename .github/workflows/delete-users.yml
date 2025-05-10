@@ -1,0 +1,29 @@
+name: Delete Users Daily
+
+on:
+  push:
+    branches: [main]
+  schedule:
+  - cron: '0 21 * * *' # 朝6時（日本）－9時間 ＝ 前日の夜9時（UTC）
+
+jobs:
+  delete-users:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run delete script
+        run: npx ts-node --esm ./batch/index.ts
+
+
+
+

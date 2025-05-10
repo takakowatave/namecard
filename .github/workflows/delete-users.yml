@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Run delete script
-        run: npx ts-node --esm ./batch/index.ts
+        run: npx ts-node ./batch/index.ts
 
 
 
